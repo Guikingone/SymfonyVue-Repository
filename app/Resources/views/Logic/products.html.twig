@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for products in products %}
+        <p>{{ products.name }}</p>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+
+            },
+        })
+    </script>
+{% endblock %}

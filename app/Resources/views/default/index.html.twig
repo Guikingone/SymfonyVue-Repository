@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% verbatim %}
+      <h1>{{ message }}</h1>
+      <p>
+        <a v-bind:href="link">Products !</a>
+      </p>
+    {% endverbatim %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: 'Hello World !',
+                link: 'products'
+            }
+        })
+    </script>
+{% endblock %}
