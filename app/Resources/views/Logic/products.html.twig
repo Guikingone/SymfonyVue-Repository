@@ -4,16 +4,36 @@
     {% for products in products %}
         <p>{{ products.name }}</p>
     {% endfor %}
+    {{ form_start(searchForm, {'attr': {'v-on:submit.prevent': 'searchProducts'}}) }}
+    {{ form_label(searchForm.name) }}
+        {{ form_widget(searchForm.name, {'attr': {'v-model': 'name'}}) }}
+        {{ form_errors(searchForm.name) }}
+    <button type="submit">Rechercher</button>
+    {{ form_end(searchForm) }}
+    {% verbatim %}
+        <p v-if="name">
+            How, seems like you're searching {{ name }},
+            here's the list of products wih this category that we have in stock :
+        </p>
+    {% endverbatim %}
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
+        Vue.component('products-component', {
+            template: '<div>Hello World from products !</div>'
+        });
         var app = new Vue({
             el: '#app',
             data: {
-
+                name: ''
             },
+            methods: {
+                searchProducts: function() {
+                    console.log('Hey, you\'re searching ' +  this.name);
+                }
+            }
         })
     </script>
 {% endblock %}

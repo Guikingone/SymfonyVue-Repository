@@ -12,7 +12,11 @@
 namespace AppBundle\Managers;
 
 use AppBundle\Entity\Products;
+use AppBundle\Form\Type\SearchProductsType;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 /**
  * Class ProductsManager
@@ -24,14 +28,27 @@ class ProductsManager
     /** @var EntityManager */
     private $doctrine;
 
+    /** @var FormFactory */
+    private $form;
+
+    /** @var RequestStack */
+    private $request;
+
     /**
      * ProductsManager constructor.
      *
      * @param EntityManager $doctrine
+     * @param FormFactory   $form
+     * @param RequestStack  $request
      */
-    public function __construct (EntityManager $doctrine)
-    {
+    public function __construct (
+        EntityManager $doctrine,
+        FormFactory $form,
+        RequestStack $request
+    ) {
         $this->doctrine = $doctrine;
+        $this->form = $form;
+        $this->request = $request;
     }
 
     /**
@@ -40,5 +57,23 @@ class ProductsManager
     public function getAllProducts()
     {
         return $this->doctrine->getRepository(Products::class)->findAll();
+    }
+
+    /**
+     * @throws InvalidOptionsException
+     *
+     * @return \Symfony\Component\Form\FormView
+     */
+    public function searchProductsByName()
+    {
+        $request = $this->request->getCurrentRequest();
+        $form = $this->form->create(SearchProductsType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // TODO
+        }
+
+        return $form->createView();
     }
 }

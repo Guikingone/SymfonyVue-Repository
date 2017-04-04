@@ -28,8 +28,11 @@ class ProductsController extends Controller
     {
         $products = $this->get('core.products_manager')->getAllProducts();
 
+        $form = $this->get('core.products_manager')->searchProductsByName();
+
         return $this->render('Logic/products.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'searchForm' => $form
         ]);
     }
 }
