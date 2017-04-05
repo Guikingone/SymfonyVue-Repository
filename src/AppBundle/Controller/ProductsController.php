@@ -13,6 +13,9 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 /**
  * Class ProductsController
@@ -23,6 +26,8 @@ class ProductsController extends Controller
 {
     /**
      * @Route(path="/products", name="products_all")
+     *
+     * @throws InvalidOptionsException      Thrown by the form.
      */
     public function getAllProductsAction()
     {
@@ -34,5 +39,19 @@ class ProductsController extends Controller
             'products' => $products,
             'searchForm' => $form
         ]);
+    }
+
+    /**
+     * @Route(path="/products/{name}", name="products_all_api")
+     *
+     * @param string $name      The category of the products
+     *
+     * @return JsonResponse     The response.
+     */
+    public function getProductsByNameAction(string $name)
+    {
+        $data = $this->get('core.products_manager')->getProductsByName($name);
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 }

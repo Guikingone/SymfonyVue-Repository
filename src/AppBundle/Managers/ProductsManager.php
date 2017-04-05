@@ -60,6 +60,28 @@ class ProductsManager
     }
 
     /**
+     * @param string $name
+     *
+     * @return array
+     */
+    public function getProductsByName(string $name)
+    {
+        $products = $this->doctrine->getRepository(Products::class)
+                                   ->findBy(['category' => $name]);
+
+        $data = [];
+        foreach ($products as $product) {
+            $data = [
+                'name' => $product->getName(),
+                'Price' => $product->getPrice(),
+                'Category' => $product->getCategory()
+            ];
+        }
+
+        return $data;
+    }
+
+    /**
      * @throws InvalidOptionsException
      *
      * @return \Symfony\Component\Form\FormView

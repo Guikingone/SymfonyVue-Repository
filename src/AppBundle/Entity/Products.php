@@ -47,6 +47,13 @@ class Products
     private $price;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="category", type="string", length=100, nullable=false)
+     */
+    private $category;
+
+    /**
      * @return int
      */
     public function getId () : int
@@ -90,6 +97,26 @@ class Products
     public function setPrice ($price)
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory () : string
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param string $category
+     *
+     * @return $this
+     */
+    public function setCategory (string $category)
+    {
+        $this->category = $category;
 
         return $this;
     }

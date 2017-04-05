@@ -21,17 +21,22 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        Vue.component('products-component', {
-            template: '<div>Hello World from products !</div>'
-        });
         var app = new Vue({
             el: '#app',
             data: {
-                name: ''
+                name: '',
+                apiURL: '',
+                products: []
             },
             methods: {
                 searchProducts: function() {
-                    console.log('Hey, you\'re searching ' +  this.name);
+                    this.$http.get(this.apiURL, this.name).then(response => {
+                        return response.json();
+                    }).then(data => {
+                        for (let key in data) {
+                            this.products.push(data[key]);
+                        }
+                    });
                 }
             }
         })
